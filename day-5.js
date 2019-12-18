@@ -43,4 +43,10 @@ const opcodeTester = (cb, opcode) => {
   // console.log(opcode)
 }
 
+// Need to add:
+// functionality for opcode 3
+// functionality for opcode 4
+// support for parameter modes
+
+
 console.log(opcodeTester(opcodeReader, opcodeEx))
