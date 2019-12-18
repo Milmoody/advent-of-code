@@ -23,9 +23,6 @@ function crossFinder (wire1, wire2) {
     const number = Number(string.slice(1));
     steps1 += number;
 
-    // console.log('direction',direction)
-    // console.log('string',string)
-    // console.log('number',number)
     //if moving right, we'll be adding a line to the y1 array1 with the position of y1
     // start of x1, and end of x1 + number
     if(direction == 'R') {
@@ -50,8 +47,6 @@ function crossFinder (wire1, wire2) {
       xObj[x1] = [y1 - number, y1, direction, steps1];
       y1 -= number;
     }
-    console.log(yObj)
-    console.log(xObj)
   })
 
   let start, end, axis, point;
@@ -60,15 +55,10 @@ function crossFinder (wire1, wire2) {
   let x2 = 0;
   let y2 = 0;
   let steps2 = 0;
-  const crossStepArr1 = [];
-  const crossStepArr2 = [];
   const crossStepArrCombined = [];
   wire2.forEach( string => {
     const direction = string.slice(0,1);
     const number = Number(string.slice(1));
-    // console.log('direction',direction)
-    // console.log('string',string)
-    // console.log('number',number)
 
     if(direction == 'R') {
       start = x2;
@@ -103,9 +93,7 @@ function crossFinder (wire1, wire2) {
     }
     steps2 += number;
 
-    // console.log("start: ", start, "end: ", end, axis, point)
-
-    
+    // check all points in w2 across w1's line obj
     for(let i = start; i <= end; i ++){
       // find which axis we're comparing against
       // compare with appropriate obj
@@ -118,13 +106,10 @@ function crossFinder (wire1, wire2) {
           // updated logic to find total num steps for wire 1 depending on direction
           let step1Cross = obj[`${i}`][3];
           console.log('step1Cross before:', step1Cross)
-          if(obj[`${i}`][2]== 'R') step1Cross = step1Cross - Math.abs(obj[`${i}`][1] - x2)
-          if(obj[`${i}`][2]== 'L') step1Cross = step1Cross - Math.abs(obj[`${i}`][0] - x2)
-          if(obj[`${i}`][2]== 'U') step1Cross = step1Cross - Math.abs(obj[`${i}`][1] - y2)
-          if(obj[`${i}`][2]== 'D') step1Cross = step1Cross - Math.abs(obj[`${i}`][0] - y2)
-          // push num steps to w1 arrary
-          console.log('step1Cross: ', step1Cross)
-          crossStepArr1.push(step1Cross);
+          if(obj[`${i}`][2] == 'R') step1Cross = step1Cross - Math.abs(obj[`${i}`][1] - x2)
+          if(obj[`${i}`][2] == 'L') step1Cross = step1Cross - Math.abs(obj[`${i}`][0] - x2)
+          if(obj[`${i}`][2] == 'U') step1Cross = step1Cross - Math.abs(obj[`${i}`][1] - y2)
+          if(obj[`${i}`][2] == 'D') step1Cross = step1Cross - Math.abs(obj[`${i}`][0] - y2)
 
           // logic for num steps wire2
           let step2Cross = steps2;
@@ -132,23 +117,20 @@ function crossFinder (wire1, wire2) {
           if(direction == 'D') step2Cross = step2Cross - Math.abs(start - i)
           if(direction == 'R') step2Cross = step2Cross - Math.abs(end - i)
           if(direction == 'L') step2Cross = step2Cross - Math.abs(start - i)
-          crossStepArr2.push(step2Cross);
-
           crossStepArrCombined.push(step1Cross + step2Cross);
         }
       }
     }
   })
-  // console.log(crossObj)
-  const distanceSet = new Set();
-  for(let key in crossObj) {
-    distanceSet.add(Math.abs(key) + Math.abs(crossObj[key]))
-  }
-  // return Math.min(...distanceSet);
+  // commented out from part 1
+  // const distanceSet = new Set();
+  // for(let key in crossObj) {
+  //   distanceSet.add(Math.abs(key) + Math.abs(crossObj[key]))
+  // }
   return Math.min(...crossStepArrCombined);
 }
 
-console.log(crossFinder(w1, w2))
+// console.log(crossFinder(w1, w2))
 
 let test1 = ["R75","D30","R83","U83","L12","D49","R71","U7","L72","U62","R66","U55","R34","D71","R55","D58","R83"]
 let test2 = ["R98","U47","R26","D63","R33","U87","L62","D20","R33","U53","R51", "U98","R91","D20","R16","D67","R40","U7","R15","U6","R7"]
